@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ExpenseTracker.Models.Expense>
+
+<h2>Expenses for @DateTime.Now.ToString("MMMM yyyy")</h2>
+<h3>Total Cost This Month: @ViewBag.TotalCostThisMonth</h3>
+
+<p>
+    <a href="@Url.Action("Create", "Expenses")" class="btn btn-primary">Add New Expense</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td>@item.Date.ToShortDateString()</td>
+                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+            </tr>
+        }
+    </tbody>
+</table>
