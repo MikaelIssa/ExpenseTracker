@@ -1,0 +1,39 @@
+﻿@model ExpenseTracker.Models.Expense
+
+<h2>Edit Expense</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+    <!-- Ett dolt fält för att lagra utgiftens 'Id', används för att identifiera vilken utgift som ska uppdateras. -->
+    <!-- Upprepar formulärfält som i 'Add New Expense' vyn för 'Description', 'Amount', 'Date', och 'Category' med validering. -->
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label">Description</label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Amount" class="control-label">Amount</label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Date" class="control-label">Date</label>
+        <input asp-for="Date" class="form-control" type="date" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Category" class="control-label">Category</label>
+        <select asp-for="Category" asp-items="@ViewBag.CategoryList" class="form-control"></select>
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form>

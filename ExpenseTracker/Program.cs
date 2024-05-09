@@ -1,18 +1,21 @@
 using ExpenseTracker.Data;
 using Microsoft.EntityFrameworkCore;
-
+// Skapar en ny instans av en WebApplicationBuilder för att konfigurera och bygga webbapplikationen.
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Lägger till MVC-kontroller med vyer som en service i applikationen.
+// Detta gör det möjligt att använda MVC-mönstret för att bygga webbgränssnitt.
 builder.Services.AddControllersWithViews();
 
-// Configure Entity Framework and DbContext
+// Konfigurerar Entity Framework och dess DbContext.
+// Använder SQL Server som databas och hämtar anslutningssträngen från konfigurationsfilen.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Konfigurerar en rutt för MVC-kontroller. 
+// Specificerar en standardkontroller och åtgärd samt möjliggör en valfri id-parameter i rutten.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

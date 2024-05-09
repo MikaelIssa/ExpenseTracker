@@ -1,30 +1,52 @@
 ﻿@model IEnumerable<ExpenseTracker.Models.Expense>
+<!-- Definierar att modellen är en samling av 'Expense'-objekt. -->
+
+@{
+    ViewData["Title"] = "Expenses Overview";
+    <!-- Använder ViewData för att sätta sidtiteln. -->
+}
 
 <h2>Expenses for @DateTime.Now.ToString("MMMM yyyy")</h2>
+<!-- Visar nuvarande månad och år. -->
+
 <h3>Total Cost This Month: @ViewBag.TotalCostThisMonth</h3>
+<!-- Visar total kostnad för månaden från en värde lagrad i ViewBag. -->
 
 <p>
     <a href="@Url.Action("Create", "Expenses")" class="btn btn-primary">Add New Expense</a>
+    <!-- Länk för att lägga till en ny utgift. -->
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Category</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="table-responsive">
+    <!-- Tabell för att visa utgiftsdata. -->
+    <table class="table table-hover">
+        <thead class="thead-light">
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
-                <td>@item.Date.ToShortDateString()</td>
-                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model) <!-- Loopar igenom varje 'Expense' i modellen. -->
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                    <td>
+                        <!-- Skapar länkar för att redigera och radera en utgift. -->
+                        <a href="@Url.Action("Edit", "Expenses", new { id = item.Id })" class="btn btn-info">Edit</a>
+                        <form method="post" action="@Url.Action("Delete", "Expenses", new { id = item.Id })" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this?');">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
